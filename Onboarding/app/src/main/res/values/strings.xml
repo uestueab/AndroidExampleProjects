@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Onboarding</string>
+
+    <!--    everything below are custom strings-->
+    <string name="heading_one">Getting started</string>
+    <string name="heading_two">Source code</string>
+    <string name="heading_three">License &amp; Privacy policy</string>
+    <string name="heading_fourth">Stay focused</string>
+
+    <string name="desc_one">
+        Let\'s start off giving you some information to guarantee a successful learning experience.
+    </string>
+    <string name="desc_two">
+        Our app is fully open-source, freely available for possible modification and redistribution.
+    </string>
+    <string name="desc_three">
+       We respect your privacy. For that reason we don\'t collect personal data. To see which kind of data
+        we save, take a look at our privacy section from the main menu.
+    </string>
+    <string name="desc_fourth">
+        Keep track of your progress with automatic diagrams. Explore even more features in the settings or disable them
+        to customize the app according to your needs.
+    </string>
+
+</resources>
