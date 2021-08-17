@@ -15,10 +15,10 @@ import java.util.List;
 
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
     private OnItemclickListener listener;
+    private List<Note> noteListFull = new ArrayList<>();
 
     public NoteAdapter() {
         super(DIFF_CALLBACK);
-
     }
 
     private static final DiffUtil.ItemCallback<Note> DIFF_CALLBACK = new DiffUtil.ItemCallback<Note>() {
@@ -86,5 +86,40 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
     public void setOnItemClickListener(OnItemclickListener listener){
         this.listener = listener;
+    }
+
+    public void filter(String query) {
+        String searchQuery = query.toLowerCase();
+        List<Note> filteredList = new ArrayList<>();
+        List<Note> currentList  = getCurrentList();
+
+        for(Note note : currentList){
+            String currentNoteTitle = note.getTitle().toLowerCase();
+            // Found a note that matches the query! -> add to list
+            if(currentNoteTitle.contains(searchQuery))
+                filteredList.add(note);
+        }
+
+        //nothing found -> do nothing!
+        if (filteredList.isEmpty())
+            return;
+
+        /* Here we have a filteredList: Our query was successful
+         * We want to save the full list, case the user empties the search field:
+         * - display the original list with all the items again!
+         * - if statement makes sure the getCurrentList() call runs only once.
+         */
+        if (this.noteListFull.size() == 0)
+            this.noteListFull = new ArrayList<>(currentList);
+        //update the view
+        submitList(filteredList);
+    }
+
+    public int getNoteCount(){
+        return this.noteListFull.size();
+    }
+
+    public List<Note> getNotes(){
+        return this.noteListFull;
     }
 }

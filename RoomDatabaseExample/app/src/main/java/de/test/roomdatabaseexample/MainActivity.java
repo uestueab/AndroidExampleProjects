@@ -2,10 +2,12 @@ package de.test.roomdatabaseexample;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private NoteViewModel noteViewModel;
+    public static NoteAdapter adapter = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final NoteAdapter adapter = new NoteAdapter();
+        adapter = new NoteAdapter();
         recyclerView.setAdapter(adapter);
 
         noteViewModel = new ViewModelProvider(this).get(NoteViewModel.class);
@@ -88,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
 
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -130,6 +134,35 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu,menu);
+
+        MenuItem actionSearch= menu.findItem( R.id.search_cards);
+        final SearchView searchViewEditText = (SearchView) actionSearch.getActionView();
+        searchViewEditText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //when SearchView gets cleared.
+                if(query.equals("emptyQuery")){
+                    List<Note> notesListFull = adapter.getNotes();
+                    //refresh screen with the full list again.
+                    adapter.submitList(notesListFull);
+                    return false;
+                }
+
+                adapter.filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(TextUtils.isEmpty(newText)){
+                    this.onQueryTextSubmit("emptyQuery");
+                }
+
+
+                return false;
+            }
+        });
+
         return true;
     }
 
@@ -144,4 +177,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }
