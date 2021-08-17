@@ -46,6 +46,15 @@ public abstract class NoteDatabase extends RoomDatabase {
         protected Void doInBackground(Void... voids) {
             for (int i=0; i<10; i++)
                 noteDao.insert(new Note("Debug", "Test", 1));
+
+            noteDao.insert(new Note("marder", "Test", 9));
+            noteDao.insert(new Note("weichmacher", "Test", 9));
+            noteDao.insert(new Note("licht", "Test", 9));
+            noteDao.insert(new Note("kirche", "Test", 10));
+            noteDao.insert(new Note("Coca Cola", "Test", 10));
+            noteDao.insert(new Note("cameleon", "Test", 10));
+            noteDao.insert(new Note("coole app", "Test", 9));
+            noteDao.insert(new Note("oxidation", "Test", 10));
             return null;
         }
     }

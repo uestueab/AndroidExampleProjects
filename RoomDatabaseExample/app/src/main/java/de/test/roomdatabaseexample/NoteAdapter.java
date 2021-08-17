@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
@@ -111,6 +113,23 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
          */
         if (this.noteListFull.size() == 0)
             this.noteListFull = new ArrayList<>(currentList);
+
+        // Sort the list to ensure the user gets his desired match
+        filteredList.sort(new Comparator<Note>() {
+            @Override
+            public int compare(Note firstNote, Note secondNote) {
+                /* return -1 if first argument should be before second argument
+                 * return 1 if second should be before first argument
+                 * return 0 otherwise (meaning the order stays the same)
+                 */
+                if (firstNote.getTitle().toLowerCase().startsWith(searchQuery)) {
+                    return -1;
+                } else if (secondNote.getTitle().toLowerCase().startsWith(searchQuery)) {
+                    return 1;
+                } else return 0;
+            }
+        });
+
         //update the view
         submitList(filteredList);
     }

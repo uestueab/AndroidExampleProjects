@@ -3,6 +3,7 @@ package de.test.roomdatabaseexample;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -142,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 //when SearchView gets cleared.
                 if(query.equals("emptyQuery")){
+                    //makes sure notes exist in adapter field
+                    if(adapter.getNoteCount() == 0){
+                        return false;
+                    }
                     List<Note> notesListFull = adapter.getNotes();
                     //refresh screen with the full list again.
                     adapter.submitList(notesListFull);
@@ -157,12 +162,9 @@ public class MainActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(newText)){
                     this.onQueryTextSubmit("emptyQuery");
                 }
-
-
                 return false;
             }
         });
-
         return true;
     }
 
