@@ -4,7 +4,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "note_table")
-public class Note {
+public class Note implements Cloneable{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -39,5 +39,10 @@ public class Note {
 
     public int getPriority() {
         return priority;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

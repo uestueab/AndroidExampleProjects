@@ -90,7 +90,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
         this.listener = listener;
     }
 
-    public void filter(String query) {
+    public boolean filter(String query) {
         String searchQuery = query.toLowerCase();
         List<Note> filteredList = new ArrayList<>();
         List<Note> currentList  = getCurrentList();
@@ -104,7 +104,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
         //nothing found -> do nothing!
         if (filteredList.isEmpty())
-            return;
+            return false;
 
         /* Here we have a filteredList: Our query was successful
          * We want to save the full list, case the user empties the search field:
@@ -132,6 +132,7 @@ public class NoteAdapter extends ListAdapter<Note, NoteAdapter.NoteHolder> {
 
         //update the view
         submitList(filteredList);
+        return true;
     }
 
     public int getNoteCount(){

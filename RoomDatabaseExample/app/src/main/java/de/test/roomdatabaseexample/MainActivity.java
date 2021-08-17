@@ -1,6 +1,7 @@
 package de.test.roomdatabaseexample;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -21,8 +23,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setTitle("Overview total notes");
 
         FloatingActionButton buttonAddNote = findViewById(R.id.button_add_note);
         buttonAddNote.setOnClickListener(new View.OnClickListener() {
@@ -74,22 +82,54 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                noteViewModel.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(MainActivity.this, "Note deleted", Toast.LENGTH_SHORT).show();
+                int position = viewHolder.getAdapterPosition();
+
+                switch (direction){
+                    case ItemTouchHelper.LEFT:
+                        String deletedNoteTitle = adapter.getNoteAt(position).getTitle();
+                        Note cloneNote = null;
+                        try {
+                            cloneNote = (Note) adapter.getNoteAt(position).clone();
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                        noteViewModel.delete(adapter.getNoteAt(position));
+                        Note finalCloneNote = cloneNote;
+                        Snackbar.make(recyclerView, "Deleted: "+deletedNoteTitle, BaseTransientBottomBar.LENGTH_LONG)
+                                .setAction("Restore", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        noteViewModel.insert(finalCloneNote);
+                                    }
+                                }).show();
+//                        Toast.makeText(MainActivity.this, "Note deleted: "+ deletedNoteTitle, Toast.LENGTH_SHORT).show();
+                        break;
+                    case ItemTouchHelper.RIGHT:
+                        editNote(adapter.getNoteAt(position));
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeLeftBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.deleteNoteOnSwipe))
+                        .addSwipeLeftActionIcon(R.drawable.ic_delete)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.editNoteOnSwipe))
+                        .addSwipeRightActionIcon(R.drawable.ic_edit)
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         }).attachToRecyclerView(recyclerView);
 
         adapter.setOnItemClickListener(new NoteAdapter.OnItemclickListener() {
             @Override
             public void onItemClick(Note note) {
-                Intent intent = new Intent(MainActivity.this, AddEditNoteActivity.class);
-                intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getId());
-                intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
-                intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
-                intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
-                startActivityForResult(intent,EDIT_NOTE_REQUEST);
-
-
+                editNote(note);
             }
         });
 
@@ -138,6 +178,27 @@ public class MainActivity extends AppCompatActivity {
 
         MenuItem actionSearch= menu.findItem( R.id.search_cards);
         final SearchView searchViewEditText = (SearchView) actionSearch.getActionView();
+        searchViewEditText.setQueryHint("search notes...");
+        searchViewEditText.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchViewEditText.setMaxWidth(Integer.MAX_VALUE);
+                getSupportActionBar().setDisplayShowTitleEnabled(false);
+                FloatingActionButton buttonAddNote = findViewById(R.id.button_add_note);
+                buttonAddNote.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        searchViewEditText.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                getSupportActionBar().setDisplayShowTitleEnabled(true);
+                FloatingActionButton buttonAddNote = findViewById(R.id.button_add_note);
+                buttonAddNote.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
         searchViewEditText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -153,7 +214,9 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
 
-                adapter.filter(query);
+                if (!adapter.filter(query))
+                    Toast.makeText(MainActivity.this, "couldn't find note matching query", Toast.LENGTH_SHORT).show();
+
                 return false;
             }
 
@@ -180,4 +243,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void editNote(Note note){
+        Intent intent = new Intent(MainActivity.this, AddEditNoteActivity.class);
+        intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getId());
+        intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
+        intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
+        intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
+        startActivityForResult(intent,EDIT_NOTE_REQUEST);
+    }
 }
