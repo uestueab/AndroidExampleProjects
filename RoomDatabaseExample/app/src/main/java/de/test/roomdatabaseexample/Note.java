@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 public class Note implements Cloneable{
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private int noteId;
 
     private String title;
 
@@ -21,12 +21,12 @@ public class Note implements Cloneable{
         this.priority = priority;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNoteId(int noteId) {
+        this.noteId = noteId;
     }
 
-    public int getId() {
-        return id;
+    public int getNoteId() {
+        return noteId;
     }
 
     public String getTitle() {

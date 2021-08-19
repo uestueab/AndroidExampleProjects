@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -26,4 +27,10 @@ public interface NoteDao {
 
     @Query("SELECT * FROM note_table ORDER BY title DESC")
     LiveData<List<Note>> getAllNotes();
+
+    @Transaction
+    @Query("SELECT * FROM note_table")
+    LiveData<List<NoteAndStatus>> getAllNotesAndStatus();
+
+
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -161,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             int priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY,1);
 
             Note note  = new Note(title,description,priority);
-            note.setId(id);
+            note.setNoteId(id);
             noteViewModel.update(note);
 
             Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
@@ -245,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void editNote(Note note){
         Intent intent = new Intent(MainActivity.this, AddEditNoteActivity.class);
-        intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getId());
+        intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getNoteId());
         intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
         intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
         intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());
