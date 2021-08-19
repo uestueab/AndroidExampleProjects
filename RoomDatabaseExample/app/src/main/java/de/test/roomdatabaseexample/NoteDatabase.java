@@ -9,7 +9,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Note.class,Status.class}, version = 1)
+@Database(entities = {Note.class, NoteStatus.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;
@@ -44,7 +44,7 @@ public abstract class NoteDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for (int i=0; i<10; i++)
+            for (int i=0; i<5; i++)
                 noteDao.insert(new Note("Debug", "Test", 1));
 
             noteDao.insert(new Note("marder", "Test", 9));
@@ -55,6 +55,8 @@ public abstract class NoteDatabase extends RoomDatabase {
             noteDao.insert(new Note("cameleon", "Test", 10));
             noteDao.insert(new Note("coole app", "Test", 9));
             noteDao.insert(new Note("oxidation", "Test", 10));
+            noteDao.insertNoteWithStatus(new Note("Note", "with status", 10),
+                    new NoteStatus("now"));
             return null;
         }
     }

@@ -1,5 +1,7 @@
 package de.test.roomdatabaseexample;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -11,26 +13,37 @@ import androidx.room.Update;
 import java.util.List;
 
 @Dao
-public interface NoteDao {
+public abstract class NoteDao {
 
     @Insert
-    void insert(Note note);
+    abstract long insert(Note note);
+
+    @Insert
+    abstract void insert(NoteStatus noteStatus);
+
 
     @Update
-    void update(Note note);
+    abstract void update(Note note);
 
     @Delete
-    void delete(Note note);
+    abstract void delete(Note note);
 
     @Query("DELETE FROM note_table")
-    void deleteAllNotes();
+    abstract void deleteAllNotes();
 
     @Query("SELECT * FROM note_table ORDER BY title DESC")
-    LiveData<List<Note>> getAllNotes();
+    abstract LiveData<List<Note>> getAllNotes();
 
     @Transaction
     @Query("SELECT * FROM note_table")
-    LiveData<List<NoteAndStatus>> getAllNotesAndStatus();
+    abstract LiveData<List<NoteAndStatus>> getAllNotesAndStatus();
+
+    @Transaction
+    void insertNoteWithStatus(Note note, NoteStatus noteStatus){
+        long noteId = insert(note);
+        noteStatus.setNoteOwnerId(noteId);
+        insert(noteStatus);
+    }
 
 
 }

@@ -11,7 +11,7 @@ public class NoteAndStatus {
             parentColumn = "noteId",
             entityColumn = "noteOwnerId"
     )
-    private Status status;
+    private NoteStatus noteStatus;
 
     public Note getNote() {
         return note;
@@ -21,11 +21,11 @@ public class NoteAndStatus {
         this.note = note;
     }
 
-    public Status getStatus() {
-        return status;
+    public NoteStatus getNoteStatus() {
+        return noteStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setNoteStatus(NoteStatus noteStatus) {
+        this.noteStatus = noteStatus;
     }
 }

@@ -6,18 +6,22 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Status implements Cloneable{
+public class NoteStatus implements Cloneable{
 
     @PrimaryKey(autoGenerate = true)
     private int statusId;
 
-    public int noteOwnerId;
+    public long noteOwnerId = 100;
 
     @ColumnInfo(name = "date_created")
     private String dateCreated;
 
+    @ColumnInfo(name = "date_due")
+    private String due;
 
-    public Status(String dateCreated) {
+
+    public NoteStatus(String dateCreated) {
+        this.due = "in 10 days";
         this.dateCreated = dateCreated;
     }
 
@@ -29,11 +33,11 @@ public class Status implements Cloneable{
         this.statusId = statusId;
     }
 
-    public int getNoteOwnerId() {
+    public long getNoteOwnerId() {
         return noteOwnerId;
     }
 
-    public void setNoteOwnerId(int noteOwnerId) {
+    public void setNoteOwnerId(long noteOwnerId) {
         this.noteOwnerId = noteOwnerId;
     }
 
@@ -43,6 +47,14 @@ public class Status implements Cloneable{
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public String getDue() {
+        return due;
+    }
+
+    public void setDue(String due) {
+        this.due = due;
     }
 
     @Override

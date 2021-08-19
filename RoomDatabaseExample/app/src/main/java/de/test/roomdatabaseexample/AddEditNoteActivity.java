@@ -68,7 +68,7 @@ public class AddEditNoteActivity extends AppCompatActivity {
 
         int id = getIntent().getIntExtra(EXTRA_ID,-1);
         if(id != -1){
-           data .putExtra(EXTRA_ID,id);
+           data.putExtra(EXTRA_ID,id);
         }
 
         setResult(RESULT_OK, data);
