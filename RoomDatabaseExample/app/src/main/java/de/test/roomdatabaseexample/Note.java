@@ -21,7 +21,7 @@ public class Note implements Cloneable{
         this.priority = priority;
     }
 
-    public void setNoteId(int noteId) {
+    public void setNoteId(long noteId) {
         this.noteId = noteId;
     }
 

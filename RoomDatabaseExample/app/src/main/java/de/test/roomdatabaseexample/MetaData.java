@@ -6,11 +6,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class NoteStatus implements Cloneable{
+public class MetaData implements Cloneable{
 
     @PrimaryKey(autoGenerate = true)
-    private int statusId;
+    private int metaId;
 
+    @ColumnInfo(name = "noteId")
     public long noteOwnerId = 100;
 
     @ColumnInfo(name = "date_created")
@@ -20,17 +21,17 @@ public class NoteStatus implements Cloneable{
     private String due;
 
 
-    public NoteStatus(String dateCreated) {
+    public MetaData(String dateCreated) {
         this.due = "in 10 days";
         this.dateCreated = dateCreated;
     }
 
-    public int getStatusId() {
-        return statusId;
+    public int getMetaId() {
+        return metaId;
     }
 
-    public void setStatusId(int statusId) {
-        this.statusId = statusId;
+    public void setMetaId(int metaId) {
+        this.metaId = metaId;
     }
 
     public long getNoteOwnerId() {

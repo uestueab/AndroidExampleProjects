@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             noteViewModel.insert(note);
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
         }else if(requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK){
-            int id = data.getIntExtra(AddEditNoteActivity.EXTRA_ID, -1);
+            long id = data.getLongExtra(AddEditNoteActivity.EXTRA_ID, -1);
             //invalid id
             if(id == -1){
                 Toast.makeText(this, "note can't be updated", Toast.LENGTH_SHORT).show();
@@ -245,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
     private void editNote(Note note){
         Intent intent = new Intent(MainActivity.this, AddEditNoteActivity.class);
         intent.putExtra(AddEditNoteActivity.EXTRA_ID, note.getNoteId());
+        Log.d("[Check id]:::::: ", String.valueOf(note.getNoteId()));
         intent.putExtra(AddEditNoteActivity.EXTRA_TITLE, note.getTitle());
         intent.putExtra(AddEditNoteActivity.EXTRA_DESCRIPTION, note.getDescription());
         intent.putExtra(AddEditNoteActivity.EXTRA_PRIORITY, note.getPriority());

@@ -3,15 +3,15 @@ package de.test.roomdatabaseexample;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-public class NoteAndStatus {
+public class NoteAndMetaData {
     @Embedded
     private Note note;
 
     @Relation(
             parentColumn = "noteId",
-            entityColumn = "noteOwnerId"
+            entityColumn = "noteId"
     )
-    private NoteStatus noteStatus;
+    private MetaData metaData;
 
     public Note getNote() {
         return note;
@@ -21,11 +21,11 @@ public class NoteAndStatus {
         this.note = note;
     }
 
-    public NoteStatus getNoteStatus() {
-        return noteStatus;
+    public MetaData getMetaData() {
+        return metaData;
     }
 
-    public void setNoteStatus(NoteStatus noteStatus) {
-        this.noteStatus = noteStatus;
+    public void setMetaData(MetaData metaData) {
+        this.metaData = metaData;
     }
 }

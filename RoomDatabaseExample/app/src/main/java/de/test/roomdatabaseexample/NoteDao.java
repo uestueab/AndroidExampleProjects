@@ -1,7 +1,5 @@
 package de.test.roomdatabaseexample;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -19,7 +17,7 @@ public abstract class NoteDao {
     abstract long insert(Note note);
 
     @Insert
-    abstract void insert(NoteStatus noteStatus);
+    abstract void insert(MetaData metaData);
 
 
     @Update
@@ -36,13 +34,13 @@ public abstract class NoteDao {
 
     @Transaction
     @Query("SELECT * FROM note_table")
-    abstract LiveData<List<NoteAndStatus>> getAllNotesAndStatus();
+    abstract LiveData<List<NoteAndMetaData>> getAllNotesAndStatus();
 
     @Transaction
-    void insertNoteWithStatus(Note note, NoteStatus noteStatus){
+    void insertNoteWithMetaData(Note note, MetaData metaData){
         long noteId = insert(note);
-        noteStatus.setNoteOwnerId(noteId);
-        insert(noteStatus);
+        metaData.setNoteOwnerId(noteId);
+        insert(metaData);
     }
 
 
