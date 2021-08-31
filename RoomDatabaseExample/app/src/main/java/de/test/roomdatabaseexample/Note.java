@@ -1,6 +1,7 @@
 package de.test.roomdatabaseexample;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "note_table")
@@ -14,6 +15,18 @@ public class Note implements Cloneable{
     private String description;
 
     private int priority;
+
+    @Ignore
+    protected Note(){
+    }
+
+    @Ignore
+    public Note(NoteBuilder builder) {
+        this.title = builder.getTitle();
+        this.description = builder.getDescription();
+        this.priority = builder.getPriority();
+    }
+
 
     public Note(String title, String description, int priority) {
         this.title = title;
