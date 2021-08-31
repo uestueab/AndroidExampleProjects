@@ -28,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import de.test.roomdatabaseexample.model.entity.Note;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class MainActivity extends AppCompatActivity {

@@ -5,9 +5,11 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
+
+import de.test.roomdatabaseexample.model.datasource.NoteRepository;
+import de.test.roomdatabaseexample.model.entity.Note;
 
 
 public class NoteViewModel extends AndroidViewModel {

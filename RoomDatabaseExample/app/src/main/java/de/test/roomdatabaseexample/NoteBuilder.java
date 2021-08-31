@@ -1,5 +1,7 @@
 package de.test.roomdatabaseexample;
 
+import de.test.roomdatabaseexample.model.entity.Note;
+
 public class NoteBuilder{
 
     private String title;

@@ -1,9 +1,17 @@
-package de.test.roomdatabaseexample;
+package de.test.roomdatabaseexample.model.entity;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import de.test.roomdatabaseexample.NoteBuilder;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+//@Builder
+//@Getter
+//@Setter
 @Entity(tableName = "note_table")
 public class Note implements Cloneable{
 

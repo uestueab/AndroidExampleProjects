@@ -1,4 +1,4 @@
-package de.test.roomdatabaseexample;
+package de.test.roomdatabaseexample.model.datasource;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -8,6 +8,10 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import de.test.roomdatabaseexample.model.dao.NoteDao;
+import de.test.roomdatabaseexample.model.entity.MetaData;
+import de.test.roomdatabaseexample.model.entity.Note;
 
 @Database(entities = {Note.class, MetaData.class}, version = 1)
 public abstract class NoteDatabase extends RoomDatabase {

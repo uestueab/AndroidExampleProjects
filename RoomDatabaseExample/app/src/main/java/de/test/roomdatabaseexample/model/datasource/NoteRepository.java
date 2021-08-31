@@ -1,4 +1,4 @@
-package de.test.roomdatabaseexample;
+package de.test.roomdatabaseexample.model.datasource;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -6,6 +6,9 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+
+import de.test.roomdatabaseexample.model.dao.NoteDao;
+import de.test.roomdatabaseexample.model.entity.Note;
 
 public class NoteRepository {
     private NoteDao noteDao;

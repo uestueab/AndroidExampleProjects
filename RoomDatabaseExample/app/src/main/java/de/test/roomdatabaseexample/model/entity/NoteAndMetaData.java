@@ -1,7 +1,10 @@
-package de.test.roomdatabaseexample;
+package de.test.roomdatabaseexample.model.entity;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
+
+import de.test.roomdatabaseexample.model.entity.MetaData;
+import de.test.roomdatabaseexample.model.entity.Note;
 
 public class NoteAndMetaData {
     @Embedded

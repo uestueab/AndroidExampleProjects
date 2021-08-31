@@ -1,4 +1,4 @@
-package de.test.roomdatabaseexample;
+package de.test.roomdatabaseexample.model.entity;
 
 
 import androidx.room.ColumnInfo;
