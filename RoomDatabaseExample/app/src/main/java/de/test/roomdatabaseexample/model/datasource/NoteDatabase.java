@@ -49,18 +49,21 @@ public abstract class NoteDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             for (int i=0; i<5; i++)
-                noteDao.insert(new Note("Debug", "Test", 1));
+                noteDao.insert(Note.builder()
+                        .title("Debug").description("lombok").priority(10).build());
 
-            noteDao.insert(new Note("marder", "Test", 9));
-            noteDao.insert(new Note("weichmacher", "Test", 9));
-            noteDao.insert(new Note("licht", "Test", 9));
-            noteDao.insert(new Note("kirche", "Test", 10));
-            noteDao.insert(new Note("Coca Cola", "Test", 10));
-            noteDao.insert(new Note("cameleon", "Test", 10));
-            noteDao.insert(new Note("coole app", "Test", 9));
-            noteDao.insert(new Note("oxidation", "Test", 10));
-            noteDao.insertNoteWithMetaData(new Note("Note", "with status", 10),
+            noteDao.insert(Note.builder().title("coca cola").description("Test").priority(10).build());
+            noteDao.insert(Note.builder().title("weichamer").description("Test").priority(10).build());
+            noteDao.insert(Note.builder().title("kirche").description("Test").priority(10).build());
+            noteDao.insert(Note.builder().title("licht").description("Test").priority(10).build());
+            noteDao.insert(Note.builder().title("cameleon").description("Test").priority(10).build());
+            noteDao.insert(Note.builder().title("cool app").description("Test").priority(10).build());
+            noteDao.insert(Note.builder().title("oxidation").description("Test").priority(10).build());
+
+            noteDao.insertNoteWithMetaData(Note.builder().title("Note").description("with status").priority(10).build(),
                     new MetaData("now"));
+//            noteDao.insertNoteWithMetaData(new Note("Note", "with status", 10),
+//                    new MetaData("now"));
             return null;
         }
     }

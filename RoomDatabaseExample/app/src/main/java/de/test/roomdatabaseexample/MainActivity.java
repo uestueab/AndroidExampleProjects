@@ -146,14 +146,8 @@ public class MainActivity extends AppCompatActivity {
             String description = data.getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY,1);
 
-//            Note note = new Note(title,description,priority);
-            Note note = new NoteBuilder()
-                    .setTitle(title)
-                    .setDescription(description)
-                    .setPriority(priority)
-                    .build();
-
-
+            Note note = Note.builder()
+                    .title(title).description(description).priority(priority).build();
 
             noteViewModel.insert(note);
             Toast.makeText(this, "Note saved", Toast.LENGTH_SHORT).show();
@@ -169,9 +163,12 @@ public class MainActivity extends AppCompatActivity {
             String description = data.getStringExtra(AddEditNoteActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddEditNoteActivity.EXTRA_PRIORITY,1);
 
-            Note note  = new Note(title,description,priority);
-            note.setNoteId(id);
+            Note note = Note.builder()
+                    .noteId(id).title(title).description(description).priority(priority).build();
             noteViewModel.update(note);
+//            Note note  = new Note(title,description,priority);
+//            note.setNoteId(id);
+//            noteViewModel.update(note);
 
             Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
         }

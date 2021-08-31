@@ -4,63 +4,25 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import de.test.roomdatabaseexample.NoteBuilder;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//@Builder
-//@Getter
-//@Setter
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(tableName = "note_table")
 public class Note implements Cloneable{
 
     @PrimaryKey(autoGenerate = true)
     private long noteId;
-
     private String title;
-
     private String description;
-
     private int priority;
-
-    @Ignore
-    protected Note(){
-    }
-
-    @Ignore
-    public Note(NoteBuilder builder) {
-        this.title = builder.getTitle();
-        this.description = builder.getDescription();
-        this.priority = builder.getPriority();
-    }
-
-
-    public Note(String title, String description, int priority) {
-        this.title = title;
-        this.description = description;
-        this.priority = priority;
-    }
-
-    public void setNoteId(long noteId) {
-        this.noteId = noteId;
-    }
-
-    public long getNoteId() {
-        return noteId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
