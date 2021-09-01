@@ -2,20 +2,22 @@ package de.test.roomdatabaseexample.sm2;
 
 import java.util.*;
 
+import de.test.roomdatabaseexample.model.entity.Note;
+
 public class Session {
-    private Map<Item, SessionItemStatistics> itemStatisticsMap = new HashMap<>();
+    private Map<Note, SessionNoteStatistics> noteStatisticsMap = new HashMap<>();
 
     public void applyReview(Review review) {
-        Item item = review.getItem();
-        SessionItemStatistics itemStatistics = itemStatisticsMap.computeIfAbsent(item, k -> new SessionItemStatistics());
-        itemStatistics.setMostRecentScore(review.getScore());
+        Note note = review.getNote();
+        SessionNoteStatistics noteStatistics = noteStatisticsMap.computeIfAbsent(note, k -> new SessionNoteStatistics());
+        noteStatistics.setMostRecentScore(review.getScore());
 
-        if (review.getScore() < 3) {
-            itemStatistics.setLapsedDuringSession(true);
+        if (review.getScore() < 2) {
+            noteStatistics.setLapsedDuringSession(true);
         }
     }
 
-    public Map<Item, SessionItemStatistics> getItemStatistics() {
-        return this.itemStatisticsMap;
+    public Map<Note, SessionNoteStatistics> getNoteStatistics() {
+        return this.noteStatisticsMap;
     }
 }

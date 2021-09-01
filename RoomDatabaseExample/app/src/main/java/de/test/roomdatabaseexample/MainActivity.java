@@ -26,9 +26,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import de.test.roomdatabaseexample.model.entity.Note;
+import de.test.roomdatabaseexample.sm2.Review;
+import de.test.roomdatabaseexample.sm2.Scheduler;
+import de.test.roomdatabaseexample.sm2.Session;
+import de.test.roomdatabaseexample.toolbox.TimeProvider;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class MainActivity extends AppCompatActivity {
@@ -165,12 +170,34 @@ public class MainActivity extends AppCompatActivity {
 
             Note note = Note.builder()
                     .noteId(id).title(title).description(description).priority(priority).build();
-            noteViewModel.update(note);
-//            Note note  = new Note(title,description,priority);
-//            note.setNoteId(id);
-//            noteViewModel.update(note);
 
-            Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
+            String lastReview = TimeProvider.toHumanReadableDate(note.getLastReviewedDate());
+            LocalDateTime dueDate = TimeProvider.toLocalDateTime( note.getDueDate());
+
+            System.out.println(lastReview);
+            System.out.println(dueDate);
+
+            Log.d("lastReview", lastReview);
+            Log.d("dueDate", dueDate.toString());
+
+            Scheduler scheduler = Scheduler.builder().build();
+
+            for (int i=0; i<2; i++){
+                Session session = new Session();
+                Review review = new Review(note,3);
+                session.applyReview(review);
+                scheduler.applySession(session);
+
+                lastReview = TimeProvider.toHumanReadableDate(note.getLastReviewedDate());
+                dueDate = TimeProvider.toLocalDateTime( note.getDueDate());
+
+                Log.d("[lastReviewAfterReview]::::::", lastReview);
+                Log.d("[dueDateAfterReview]::::::", dueDate.toString());
+            }
+
+            noteViewModel.update(note);
+
+            Toast.makeText(this, "Note updated", Toast.LENGTH_LONG).show();
         }
         else{
             Toast.makeText(this, "Note not saved", Toast.LENGTH_SHORT).show();

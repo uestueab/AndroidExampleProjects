@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SessionItemStatistics {
+public class SessionNoteStatistics {
     private boolean lapsedDuringSession = false;
 
     /* mostRecentScore referes to the quality of the current review item:
