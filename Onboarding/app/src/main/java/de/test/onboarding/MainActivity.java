@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
     ViewPager.OnPageChangeListener viewLIstener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-
         }
 
         @Override
